@@ -1,0 +1,22 @@
+{
+  "name": "mcp-supplier-list",
+  "version": "0.22.0",
+  "description": "MCP server for a supplier directory that does not rot: contacts, payment terms, lead times and review stamps. A supplier directory that does not rot: contacts, terms, lead times, and when each record was last reviewed.",
+  "settings": [
+    {
+      "name": "mcp.zovo.one token",
+      "description": "A free anonymous token from https://mcp.zovo.one/mcp/token, or your Pro key. One token is one data space, and it is refreshed for another 30 days on every write.",
+      "envVar": "ZOVO_MCP_TOKEN",
+      "sensitive": true
+    }
+  ],
+  "mcpServers": {
+    "supplier-list": {
+      "httpUrl": "https://mcp.zovo.one/mcp/supplier-list",
+      "headers": {
+        "Authorization": "Bearer ${ZOVO_MCP_TOKEN}"
+      },
+      "description": "A supplier directory that does not rot: contacts, terms, lead times, and when each record was last reviewed."
+    }
+  }
+}
