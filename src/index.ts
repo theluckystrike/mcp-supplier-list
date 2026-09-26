@@ -114,7 +114,7 @@ const editableFields = {
   notes: str("notes", MAX_TEXT).optional().describe("Anything worth remembering: minimum orders, who to escalate to, why you dropped them last time"),
 };
 
-server.registerTool("supplier_add", {
+server.registerTool("supplier_add", { annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false },
   title: "Add a supplier",
   description: "Add a supplier to the directory and return its SUP-YYYY-NNNN number: the name, what they supply, who to contact and how, the payment terms, the lead time in days, and notes. Free tier: 10 suppliers; removing one you no longer use frees its slot.",
   inputSchema: {
@@ -161,7 +161,7 @@ server.registerTool("supplier_add", {
   } catch (e) { return fail((e as Error).message); }
 });
 
-server.registerTool("supplier_list", {
+server.registerTool("supplier_list", { annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   title: "List suppliers",
   description: "List the supplier directory A to Z by name: contact, payment terms, lead time, when each record was last reviewed and how many days ago that was. Filter by category and by free text across every field. Reads only.",
   inputSchema: {
@@ -186,7 +186,7 @@ server.registerTool("supplier_list", {
   } catch (e) { return fail((e as Error).message); }
 });
 
-server.registerTool("supplier_get", {
+server.registerTool("supplier_get", { annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   title: "Read one supplier",
   description: "Read one supplier record in full by SUP number or name: every contact field, the payment terms, the lead time, the notes, and when the record was last reviewed. Reads only.",
   inputSchema: {
@@ -201,7 +201,7 @@ server.registerTool("supplier_get", {
   } catch (e) { return fail((e as Error).message); }
 });
 
-server.registerTool("supplier_update", {
+server.registerTool("supplier_update", { annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false },
   title: "Change a supplier record",
   description: "Change any of a supplier's fields by SUP number or name: name, category, the contact fields, payment terms, lead time, notes. Only the fields you pass change; pass at least one. The SUP number and the review stamp are not writable here -- supplier_mark_reviewed does the stamp.",
   inputSchema: {
@@ -244,7 +244,7 @@ server.registerTool("supplier_update", {
   } catch (e) { return fail((e as Error).message); }
 });
 
-server.registerTool("supplier_remove", {
+server.registerTool("supplier_remove", { annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: false },
   title: "Remove a supplier",
   description: "Remove a supplier from the directory by SUP number or name, returning the record as it stood so nothing is lost silently. The SUP number is never reissued. On the free tier the slot is freed for another supplier.",
   inputSchema: {
@@ -269,7 +269,7 @@ server.registerTool("supplier_remove", {
   } catch (e) { return fail((e as Error).message); }
 });
 
-server.registerTool("supplier_mark_reviewed", {
+server.registerTool("supplier_mark_reviewed", { annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false },
   title: "Stamp a supplier as reviewed",
   description: "Stamp a supplier's record as reviewed on a date, today by default: you have checked the contact, the terms and the lead time are still true. This is the stamp supplier_due_review reads, so a reviewed record stops being flagged as stale.",
   inputSchema: {
@@ -293,7 +293,7 @@ server.registerTool("supplier_mark_reviewed", {
   } catch (e) { return fail((e as Error).message); }
 });
 
-server.registerTool("supplier_due_review", {
+server.registerTool("supplier_due_review", { annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false },
   title: "Which supplier records have gone stale",
   description: "The due-review report: every supplier whose record has not been reviewed in the last N days -- 90 unless you say otherwise -- most overdue first. A record never reviewed is always due, whatever its age. This is the report that keeps the directory from rotting. Pro feature.",
   inputSchema: {
@@ -327,7 +327,7 @@ server.registerTool("supplier_due_review", {
   } catch (e) { return fail((e as Error).message); }
 });
 
-server.registerTool("supplier_export", {
+server.registerTool("supplier_export", { annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   title: "Export the directory",
   description: "Export the supplier directory as CSV or a Markdown table: every field, one row per supplier, A to Z by name. CSV opens in any spreadsheet; Markdown drops into a doc, a wiki or a README. Filter by category and free text first if you only want part of it. CSV is free; Markdown is Pro.",
   inputSchema: {
